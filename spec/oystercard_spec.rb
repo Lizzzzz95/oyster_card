@@ -30,4 +30,16 @@ describe Oystercard do
 
   end
 
+  it 'is not in a journey' do
+    expect(subject.in_journey?).to eq false
+  end
+
+  it 'can touch in' do
+    expect(subject.touch_in).to eq true
+  end
+
+  it 'checks if user has touched out' do
+    expect(subject.touch_out).to eq false
+  end
+
 end
