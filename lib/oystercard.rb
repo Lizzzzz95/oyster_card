@@ -1,4 +1,5 @@
 MAX_BALANCE = 90
+MIN_BALANCE = 1
 
 class Oystercard
 
@@ -6,12 +7,12 @@ class Oystercard
 
   def initialize
     @balance = 0
-    @status_of_card = false
+    @in_journey = false
   end
 
   def top_up(amount)
     if (@balance + amount) > MAX_BALANCE
-      raise 'Oyster balance cannot exceed £90'
+      raise "Oyster balance cannot exceed £#{MAX_BALANCE}"
     else
       @balance += amount
     end
@@ -26,11 +27,12 @@ class Oystercard
   end
 
   def touch_in
-    @status_of_card = true
+    raise 'Oyster balance too low to tap in' if @balance < MIN_BALANCE
+    @in_journey = true
   end
 
   def touch_out
-    @status_of_card = false
+    @in_journey = false
   end
 
 end
