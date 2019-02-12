@@ -7,7 +7,8 @@ describe Oystercard do
   end
 
   it 'will not touch in if below minimum balance' do
-    expect{ subject.touch_in }.to raise_error "Oyster balance too low to tap in"
+    station = Station.new
+    expect{ subject.touch_in(station) }.to raise_error "Oyster balance too low to tap in"
   end
 
 
@@ -27,9 +28,16 @@ describe Oystercard do
     expect(subject.in_journey?).to eq false
   end
 
-  it 'can touch in' do
-    expect{subject.top_up(Oystercard::MIN_FARE)}.to change{subject.balance}.by Oystercard::MIN_FARE
-    expect(subject.touch_in).to eq true
+
+  describe '#touch_in' do
+
+    it 'remembers entry station after touch in' do
+      station = Station.new
+      expect{subject.top_up(Oystercard::MIN_FARE)}.to change{subject.balance}.by Oystercard::MIN_FARE
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+    end
+
   end
 
 
