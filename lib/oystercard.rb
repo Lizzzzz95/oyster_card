@@ -1,5 +1,5 @@
 MAX_BALANCE = 90
-MIN_BALANCE = 1
+MIN_FARE = 1
 
 class Oystercard
 
@@ -27,12 +27,15 @@ class Oystercard
   end
 
   def touch_in
-    raise 'Oyster balance too low to tap in' if @balance < MIN_BALANCE
+    raise 'Oyster balance too low to tap in' if @balance < MIN_FARE
     @in_journey = true
   end
 
   def touch_out
+    deduct(MIN_FARE)
     @in_journey = false
   end
+
+  private :deduct
 
 end

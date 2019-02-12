@@ -23,25 +23,26 @@ describe Oystercard do
 
   end
 
-
-  describe '#deduct' do
-
-    it 'deducts amount from balance' do
-      expect{subject.deduct(1)}.to change{subject.balance}.by -1
-    end
-
-  end
-
   it 'is not in a journey' do
     expect(subject.in_journey?).to eq false
   end
 
-  # it 'can touch in' do
-  #   expect(subject.touch_in).to eq true
-  # end
-  #
-  # it 'checks if user has touched out' do
-  #   expect(subject.touch_out).to eq false
-  # end
+  it 'can touch in' do
+    expect{subject.top_up(Oystercard::MIN_FARE)}.to change{subject.balance}.by Oystercard::MIN_FARE
+    expect(subject.touch_in).to eq true
+  end
+
+
+  describe '#touch_out' do
+
+    it 'checks if user has touched out' do
+      expect(subject.touch_out).to eq false
+    end
+
+    it 'dedcuts min fare when user touches out' do
+      expect{subject.touch_out}.to change{subject.balance}.by (- Oystercard::MIN_FARE)
+    end
+
+  end
 
 end
